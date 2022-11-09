@@ -5,23 +5,23 @@ import { Stylesheet } from '@fluentui/merge-styles';
 import * as styles from './styles'
 
 function App() {
-  let randomArray = [('#' + Math.floor(Math.random()*16777215).toString(16)),('#' + Math.floor(Math.random()*16777215).toString(16)),('#' + Math.floor(Math.random()*16777215).toString(16))]
-  
-  const [hexArray, setHexArray] = useState<string[]>(randomArray);
-  const [answer, setAnswer] = useState<string>('red')
-  console.log(answer)
+
+  let initialRandomArray = [('#' + Math.floor(Math.random()*16777215).toString(16)),('#' + Math.floor(Math.random()*16777215).toString(16)),('#' + Math.floor(Math.random()*16777215).toString(16))]
+  let answerIndex = Math.floor(Math.random()*3)
+
+  const [hexArray, setHexArray] = useState<string[]>(initialRandomArray);
+  const [divColor, setDivColor] = useState<string>(initialRandomArray[answerIndex])
 
   const handleSubmission = () =>{
-    let randomColorArray = randomArray
-    setHexArray(randomColorArray)
-    setAnswer(hexArray[Math.floor(Math.random()*3)])
+    let newRandomArray = [('#' + Math.floor(Math.random()*16777215).toString(16)),('#' + Math.floor(Math.random()*16777215).toString(16)),('#' + Math.floor(Math.random()*16777215).toString(16))]
+    setHexArray(newRandomArray)
+    setDivColor(newRandomArray[answerIndex])
   }
-  // answer.current = undefined ? (hexArray[Math.floor(Math.random()*3)]) : 'red' 
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div className={styles.container}>
-        <div style={{ backgroundColor: `${answer}`, width: '25%', aspectRatio: '1/1' }}></div>
+        <div style={{ backgroundColor: `${divColor}`, width: '25%', aspectRatio: '1/1' }}>{divColor}</div>
       </div>
       <div className={styles.buttonContainer}>
         {hexArray.map((button, index) =>{
