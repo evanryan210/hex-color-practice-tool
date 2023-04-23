@@ -14,10 +14,21 @@ function App() {
   const [divColor, setDivColor] = useState<string>(initialRandomArray[answerIndex])
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isCorrect, setIsCorrect] = useState<boolean>(true)
+  const correctCount = useRef(0)
+  const incorrectCount = useRef(0)
 
-  
+
+  const handleCorrect = () =>{
+    setIsCorrect(true)
+    correctCount.current = correctCount.current + 1;
+  }
+  const handleIncorrect = () =>{
+    setIsCorrect(false)
+    incorrectCount.current = incorrectCount.current + 1;
+  }
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <h1 style={{textAlign:'center'}}>Pick the Color Value!</h1>
       <div className={styles.container}>
         <div style={{ backgroundColor: `${divColor}`, width: '25%', aspectRatio: '1/1', border: '5px solid black' }}></div>
       </div>
@@ -25,7 +36,7 @@ function App() {
         {hexArray.map((button, index) => {
           return (
             <button key={index} className={styles.button} onClick={() => {
-              hexArray[index] == divColor ? setIsCorrect(true) : setIsCorrect(false)
+              hexArray[index] == divColor ? handleCorrect() : handleIncorrect()
               console.log(index + ' : ' + answerIndex)
               let newRandomArray = [('#' + Math.floor(Math.random() * 16777215).toString(16)), ('#' + Math.floor(Math.random() * 16777215).toString(16)), ('#' + Math.floor(Math.random() * 16777215).toString(16))]
               setHexArray(newRandomArray)
@@ -38,6 +49,9 @@ function App() {
         })}
       </div>
       <span style={{textAlign: 'center', fontSize: '40px'}}>&nbsp;{isOpen ? isCorrect ? 'Correct!' : 'Incorrect' : ''}</span>
+      <p style={{textAlign:'center'}}>Total correct: {correctCount.current}</p>
+      <p style={{textAlign: 'center'}}>Total incorrect: {incorrectCount.current}</p>
+
     </div>
   );
 }
