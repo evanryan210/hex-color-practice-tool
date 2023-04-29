@@ -28,9 +28,12 @@ function App() {
   }
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <h1 style={{textAlign:'center'}}>Pick the Color Value!</h1>
+      <h1 style={{ textAlign: 'center' }}>Pick the Color Value!</h1>
       <div className={styles.container}>
-        <div style={{ backgroundColor: `${divColor}`, width: '25%', aspectRatio: '1/1', border: '5px solid black' }}></div>
+        <div style={{ backgroundColor: `${divColor}`}} className={styles.colorBox}>
+          <span className={styles.colorBoxText}>&nbsp;{isOpen ? isCorrect ? 'Correct!' : 'Incorrect' : ''}</span>
+
+        </div>
       </div>
       <div className={styles.buttonContainer}>
         {hexArray.map((button, index) => {
@@ -48,7 +51,6 @@ function App() {
           )
         })}
       </div>
-      <span style={{textAlign: 'center', fontSize: '40px'}}>&nbsp;{isOpen ? isCorrect ? 'Correct!' : 'Incorrect' : ''}</span>
       <p style={{textAlign:'center'}}>Total correct: {correctCount.current}</p>
       <p style={{textAlign: 'center'}}>Total incorrect: {incorrectCount.current}</p>
 
