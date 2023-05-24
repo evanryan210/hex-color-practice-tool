@@ -5,9 +5,13 @@ import { Stylesheet } from '@fluentui/merge-styles';
 import * as styles from './styles'
 
 function App() {
-
-  let initialRandomArray = [('#' + Math.floor(Math.random()*16777215).toString(16)),('#' + Math.floor(Math.random()*16777215).toString(16)),('#' + Math.floor(Math.random()*16777215).toString(16))]
-  // let answerIndex = Math.floor(Math.random()*3)
+  const getRandomHexArray = () => {
+    const value1 = ('#' + Math.floor(Math.random() * 16777215).toString(16))
+    const value2 = ('#' + Math.floor(Math.random() * 16777215).toString(16))
+    const value3 = ('#' + Math.floor(Math.random() * 16777215).toString(16))
+    return [value1, value2, value3]
+  }
+  let initialRandomArray = getRandomHexArray();
 
   const [answerIndex, setAnswerIndex] = useState<number>(Math.floor(Math.random()*3))
   const [hexArray, setHexArray] = useState<string[]>(initialRandomArray);
@@ -26,13 +30,13 @@ function App() {
     setIsCorrect(false)
     incorrectCount.current = incorrectCount.current + 1;
   }
+ 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <h1 style={{ textAlign: 'center' }}>Pick the Color Value!</h1>
       <div className={styles.container}>
-        <div style={{ backgroundColor: `${divColor}`}} className={styles.colorBox}>
+        <div style={{ backgroundColor: `${divColor}` }} className={styles.colorBox}>
           <span className={styles.colorBoxText}>&nbsp;{isOpen ? isCorrect ? 'Correct!' : 'Incorrect' : ''}</span>
-
         </div>
       </div>
       <div className={styles.buttonContainer}>
@@ -41,19 +45,18 @@ function App() {
             <button key={index} className={styles.button} onClick={() => {
               hexArray[index] == divColor ? handleCorrect() : handleIncorrect()
               console.log(index + ' : ' + answerIndex)
-              let newRandomArray = [('#' + Math.floor(Math.random() * 16777215).toString(16)), ('#' + Math.floor(Math.random() * 16777215).toString(16)), ('#' + Math.floor(Math.random() * 16777215).toString(16))]
+              let newRandomArray = getRandomHexArray()
               setHexArray(newRandomArray)
               setDivColor(newRandomArray[answerIndex])
-              setAnswerIndex(Math.floor(Math.random()*3))
+              setAnswerIndex(Math.floor(Math.random() * 3))
               setIsOpen(true)
-                 
+              setTimeout(()=> setIsOpen(false), 1000)
             }}>{hexArray[index].toUpperCase()}</button>
           )
         })}
       </div>
-      <p style={{textAlign:'center'}}>Total correct: {correctCount.current}</p>
-      <p style={{textAlign: 'center'}}>Total incorrect: {incorrectCount.current}</p>
-
+      <p style={{ textAlign: 'center' }}>Total correct: {correctCount.current}</p>
+      <p style={{ textAlign: 'center' }}>Total incorrect: {incorrectCount.current}</p>
     </div>
   );
 }
